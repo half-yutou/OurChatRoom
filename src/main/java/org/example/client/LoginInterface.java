@@ -1,7 +1,6 @@
 package org.example.client;
 
-import org.example.client.Service.ClientConnectServerThread;
-import org.example.client.Service.UserValidate;
+import org.example.client.ClientService.UserValidate;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -10,18 +9,11 @@ import java.util.Scanner;
 登陆界面
  */
 public class LoginInterface {
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
-        new LoginInterface().mainMenu();
-        System.out.println("用户端退出！");
-    }
-
-
-
     private boolean loop = true;//控制是否继续显示菜单
     private String key = " ";//获取用户输入
     private Scanner scan = new Scanner(System.in);
     private UserValidate userValidate = new UserValidate();
-    private void mainMenu() throws IOException, ClassNotFoundException {
+    public void mainMenu() throws IOException, ClassNotFoundException {
         while(loop) {
             System.out.println("===================欢迎登录=================");
             System.out.println("\t\t1 登陆系统");
@@ -66,6 +58,7 @@ public class LoginInterface {
                                     break;
                                 default:
                                     System.out.println("请输入正确选项");
+                                    break;
                             }
                         }
                     } else {

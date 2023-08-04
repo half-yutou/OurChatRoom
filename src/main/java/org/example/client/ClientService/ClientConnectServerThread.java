@@ -1,9 +1,7 @@
-package org.example.client.Service;
+package org.example.client.ClientService;
 
 import org.example.common.Message;
-import org.example.common.MessageType;
 
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 

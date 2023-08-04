@@ -1,4 +1,4 @@
-package org.example.client.Service;
+package org.example.client.ClientService;
 
 import org.example.common.Message;
 import org.example.common.MessageType;
@@ -32,7 +32,7 @@ public class UserValidate {
         ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
         Message ms = (Message) objectInputStream.readObject();
 
-        if(ms.getType().equals(MessageType.MESSAGE_LOGIN_SUCCEED)){
+        if(ms.getType().equals(MessageType.MESSAGE_LOGIN_SUCCEED)) {
             //成功后要创建一个和服务端保持通信的线程 -> 创建一个类 ClientConnectServerThread{}
             ClientConnectServerThread clientConnectServerThread = new ClientConnectServerThread(socket);
             //启动客户端线程
@@ -40,7 +40,7 @@ public class UserValidate {
             //为了方便管理多个线程，我们将线程放入集合管理，此处选择的是HashMap
             ManageClientConnectServerThread.addClientConnectServerThread(userID, clientConnectServerThread);
             return true;
-        }else {
+        } else {
             //登录失败，不能启动和服务器通讯的线程
             //但是要记得关闭socket
             socket.close();
