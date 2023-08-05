@@ -13,7 +13,7 @@ import java.net.Socket;
 /*
 完成用户登陆验证和用户注册功能
  */
-public class UserValidate {
+public class UserService {
     /*
     new一个user对象，方便调用其信息
      */
@@ -48,5 +48,41 @@ public class UserValidate {
         }
     }
 
+    public void onlineUserList() {
+        //发送一个MESSAGE
+        Message message = new Message();
+        message.setType(MessageType.MESSAGE_GET_ONLINE_USER);
+        message.setSender(u.getName());
 
+        try {
+            //发送给服务器，得到对应的线程的socket对应的ObjectOutputStream
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(ManageClientConnectServerThread.getClientConnectServerThread(u.getName()).getSocket().getOutputStream());
+            objectOutputStream.writeObject(message);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //向客户端发送一个客户端退出的message对象，并退出该客户端
+    public void logout() {
+
+        Message exitMessage = new Message();
+        exitMessage.setType(MessageType.MESSAGE_CLIENT_EXIT);
+        exitMessage.setSender(u.getName());//记得指定到底是哪个客户端退出
+
+        //发送message
+        try {
+            //目前阶段我们只写每一个客户端线程只有一个socket的情况
+            //所以下面的第一条语句我们取得当前的socket就可以了
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            objectOutputStream.writeObject(exitMessage);
+            System.out.println(u.getName() + "退出了系统");
+            System.exit(0);//正常结束进程
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
 }

@@ -1,6 +1,6 @@
 package org.example.client;
 
-import org.example.client.ClientService.UserValidate;
+import org.example.client.ClientService.UserService;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -12,7 +12,7 @@ public class LoginInterface {
     private boolean loop = true;//控制是否继续显示菜单
     private String key = " ";//获取用户输入
     private Scanner scan = new Scanner(System.in);
-    private UserValidate userValidate = new UserValidate();
+    private UserService userService = new UserService();
     public void mainMenu() throws IOException, ClassNotFoundException {
         while(loop) {
             System.out.println("===================欢迎登录=================");
@@ -28,7 +28,7 @@ public class LoginInterface {
                     System.out.println("请输入密码");
                     String userPwd = scan.nextLine();
 
-                    if(userValidate.checkUser(userID,userPwd)) {//此时需要去服务端验证是否存在该用户，以及密码正误 class UserValidate{}
+                    if(userService.checkUser(userID,userPwd)) {//此时需要去服务端验证是否存在该用户，以及密码正误 class UserValidate{}
                         System.out.println("========欢迎" + userID + "登录========");
                         //进入二级菜单
                         while(loop) {
@@ -42,7 +42,7 @@ public class LoginInterface {
                             key = scan.nextLine();
                             switch (key) {
                                 case "1" :
-                                    System.out.println("在线列表");
+                                    userService.onlineUserList();
                                     break;
                                 case "2" :
                                     System.out.println("群发消息");
@@ -54,6 +54,9 @@ public class LoginInterface {
                                     System.out.println("发送文件");
                                     break;
                                 case "9" :
+                                    //调用某个方法，给服务端发送一个退出系统的message
+                                    //让服务端和该客户端断开链接，然后再安全退出该客户端
+                                    userService.logout();
                                     loop = false;
                                     break;
                                 default:
