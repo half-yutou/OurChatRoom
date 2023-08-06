@@ -1,6 +1,8 @@
 package org.example.client;
 
+import org.example.client.ClientService.ClientMessageService;
 import org.example.client.ClientService.UserService;
+import org.example.common.Message;
 
 import java.io.IOException;
 import java.util.Scanner;
@@ -13,6 +15,7 @@ public class LoginInterface {
     private String key = " ";//获取用户输入
     private Scanner scan = new Scanner(System.in);
     private UserService userService = new UserService();
+    private ClientMessageService messageService = new ClientMessageService();//用于消息发送等方法的调用
     public void mainMenu() throws IOException, ClassNotFoundException {
         while(loop) {
             System.out.println("===================欢迎登录=================");
@@ -48,7 +51,12 @@ public class LoginInterface {
                                     System.out.println("群发消息");
                                     break;
                                 case "3" :
-                                    System.out.println("私聊消息");
+                                    System.out.println("请输入聊天对象(在线):");
+                                    String getterID = scan.nextLine();
+                                    System.out.println("请输入内容:");
+                                    String content = scan.nextLine();
+                                    //使用一个方法将信息发送给服务端
+                                    messageService.SendMessageToOne(content,userID,getterID);
                                     break;
                                 case "4" :
                                     System.out.println("发送文件");

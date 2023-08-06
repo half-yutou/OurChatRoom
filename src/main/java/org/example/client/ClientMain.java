@@ -8,8 +8,8 @@ import java.net.Socket;
 public class ClientMain {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
 
-       LoginInterface loginInterface = new LoginInterface();
-       loginInterface.mainMenu();
+        LoginInterface loginInterface = new LoginInterface();
+        loginInterface.mainMenu();
 
     }
 }
