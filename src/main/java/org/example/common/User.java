@@ -7,7 +7,6 @@ import java.io.Serializable;
  */
 public class User implements Serializable {//序列化才能实现传输功能
     private static final long serialVersionUID = 1L;
-
     private String name;
     private String password;
 

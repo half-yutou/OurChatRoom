@@ -31,5 +31,21 @@ public class ClientMessageService {
         }
 
     }
-
+    public void SendMessageToGroup(String content,String senderID){
+        //构建message
+        Message message = new Message();
+        message.setType(MessageType.MESSAGE_GROUP_MES);//普通的聊天消息
+        message.setSender(senderID);
+        message.setContent(content);
+        message.setSendTime(new java.util.Date().toString());
+        System.out.println("用户: "+senderID + " 群发了消息: " + content);
+        //发送给服务端
+        //拿到线程
+        try {
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(ManageClientConnectServerThread.getClientConnectServerThread(senderID).getSocket().getOutputStream());
+            objectOutputStream.writeObject(message);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
