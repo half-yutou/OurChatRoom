@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Iterator;
 
 public class ServerConnectClientThread extends Thread {
 
@@ -66,8 +68,20 @@ public class ServerConnectClientThread extends Thread {
                     ObjectOutputStream objectOutputStream = new ObjectOutputStream(serverConnectClientThread.getSocket().getOutputStream());
                     //得到getter的对应线程后，发送信息即可
                     objectOutputStream.writeObject(message);//如果用户不在线可以保存到数据库，但是代码比较复杂，先略去不表
-
-
+                } else if (message.getType().equals(MessageType.MESSAGE_GROUP_MES)){
+                    //遍历线程集合
+                    HashMap<String, ServerConnectClientThread> hm = ManageServerConnectClientThread.getHm();
+                    Iterator<String> iterator = hm.keySet().iterator();
+                    while(iterator.hasNext()){
+                        //取出在线用户ID
+                        String onlineUserID = iterator.next();
+                        if(!onlineUserID.equals(message.getSender())){
+                            //转发除发送者外的在线用户
+                            ObjectOutputStream objectOutputStream =
+                                    new ObjectOutputStream(hm.get(onlineUserID).getSocket().getOutputStream());
+                            objectOutputStream.writeObject(message);
+                        }
+                    }
                 } else {
                     System.out.println("其他类型暂不处理");
                 }

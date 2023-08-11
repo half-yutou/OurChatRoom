@@ -44,24 +44,25 @@ public class LoginInterface {
 
                             key = scan.nextLine();
                             switch (key) {
-                                case "1" :
+                                case "1":
                                     userService.onlineUserList();
                                     break;
-                                case "2" :
-                                    System.out.println("群发消息");
+                                case "2":
+                                    System.out.println("请输入群发内容:");
+                                    String content = scan.nextLine();
+                                    messageService.SendMessageToGroup(content, userID);
                                     break;
-                                case "3" :
+                                case "3":
                                     System.out.println("请输入聊天对象(在线):");
                                     String getterID = scan.nextLine();
                                     System.out.println("请输入内容:");
-                                    String content = scan.nextLine();
+                                    content = scan.nextLine();
                                     //使用一个方法将信息发送给服务端
-                                    messageService.SendMessageToOne(content,userID,getterID);
+                                    messageService.SendMessageToOne(content, userID, getterID);
                                     break;
-                                case "4" :
-                                    System.out.println("发送文件");
+                                case "4":
                                     break;
-                                case "9" :
+                                case "9":
                                     //调用某个方法，给服务端发送一个退出系统的message
                                     //让服务端和该客户端断开链接，然后再安全退出该客户端
                                     userService.logout();

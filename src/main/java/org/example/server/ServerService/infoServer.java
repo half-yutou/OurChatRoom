@@ -51,8 +51,6 @@ public class infoServer {
                 ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
                 User u = (User) objectInputStream.readObject();//读取客户端发送的user对象
 
-
-
                 //new 一个回复信息和关联输出流，根据登录是否成功回复不同信息
                 Message message = new Message();
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());

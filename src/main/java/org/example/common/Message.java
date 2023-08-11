@@ -6,13 +6,14 @@ package org.example.common;
 
 import java.io.Serializable;
 
-public class Message implements Serializable {
+public class Message implements Serializable {//实现序列化和反序列化
     private static final long serialVersionUID = 1L;
-
+    //发送者,接收者,内容,形式和发送时间
     private String sender;
     private String getter;
     private String content;
     private String type;
+    private String sendTime;
 
     public String getType() {
         return type;
@@ -22,7 +23,6 @@ public class Message implements Serializable {
         this.type = type;
     }
 
-    private String sendTime;
 
     public String getSender() {
         return sender;

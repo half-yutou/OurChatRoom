@@ -9,6 +9,10 @@ import java.util.Iterator;
  */
 public class ManageServerConnectClientThread {
     private static HashMap<String, ServerConnectClientThread> hm = new HashMap<>();
+    //返回哈希表
+    public static HashMap<String, ServerConnectClientThread> getHm(){
+        return hm;
+    }
 
     //放入线程
     public static void addServerConnectClientThread(String userID, ServerConnectClientThread serverConnectClientThread) {
