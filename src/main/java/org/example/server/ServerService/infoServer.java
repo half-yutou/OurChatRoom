@@ -47,16 +47,16 @@ public class infoServer {
             //监听工作是一直进行了，不是链接一个客户端就退出
             while(true) {
                 Socket socket = serverSocket.accept();
-                User u = null;
-                try (ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream())) {
-                    u = (User) objectInputStream.readObject();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
+                //得到关联的输入流
+                ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+                User u = (User) objectInputStream.readObject();//读取客户端发送的user对象
+
                 //new 一个回复信息和关联输出流，根据登录是否成功回复不同信息
                 Message message = new Message();
-                try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream())) {
-                    if (u != null && checkUser(u.getName(), u.getPassword())) {
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+
+
+                if(checkUser(u.getName(), u.getPassword())) {//登陆成功
                     message.setType(MessageType.MESSAGE_LOGIN_SUCCEED);
 
                     //将message对象回复
@@ -68,18 +68,17 @@ public class infoServer {
                     //把该线程对象放入集合中管理
                     ManageServerConnectClientThread.addServerConnectClientThread(u.getName(), serverConnectClientThread);
                 } else {//登录失败
-                        message.setType(MessageType.MESSAGE_LOGIN_FAIL);
-                        objectOutputStream.writeObject(message);
-                        socket.close();
-                    }
+                    message.setType(MessageType.MESSAGE_LOGIN_FAIL);
+                    objectOutputStream.writeObject(message);
+                    socket.close();
+
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         } finally {
-            if (serverSocket != null && !serverSocket.isClosed()) {
-                serverSocket.close();
-            }
+            //如果服务端退出了while循环，说明服务端不再监听
+            serverSocket.close();
         }
     }
 }
